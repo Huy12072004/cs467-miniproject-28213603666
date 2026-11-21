@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartShop - Product Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', _v=0.2) }}">
+</head>
+<body>
+    <main class="container">
+        <header class="page-header">
+            <h1>Personalized Product Recommendations</h1>
+            <p class="subtitle">Curated picks based on your shopping activity and model matching</p>
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p class="error">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% if interacted_products %}
+            <section class="section-block">
+                <h2>Your Activity History</h2>
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Item Name</th>
+                            <th>Details</th>
+                            <th>Price</th>
+                            <th>Rating</th>
+                            <th>Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in interacted_products %}
+                            <tr>
+                                <td>{{ product.product_id }}</td>
+                                <td><strong>{{ product.product_name }}</strong></td>
+                                <td>{{ product.description }}</td>
+                                <td>${{ "%.2f"|format(product.price|default(0)|float) }}</td>
+                                <td>{{ product.rating }}</td>
+                                <td><span class="badge">{{ product.source }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+
+        {% if recommended_products %}
+            <section class="section-block">
+                <h2>Top Picks For You</h2>
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Item Name</th>
+                            <th>Details</th>
+                            <th>Price</th>
+                            <th>Rating</th>
+                            <th>Match Score</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in recommended_products %}
+                            <tr>
+                                <td>{{ product.product_id }}</td>
+                                <td><strong>{{ product.product_name }}</strong></td>
+                                <td>{{ product.description }}</td>
+                                <td>${{ "%.2f"|format(product.price|default(0)|float) }}</td>
+                                <td>{{ product.rating }}</td>
+                                <td>{{ "%.2f"|format(product.score|default(0)|float) }}</td>
+                                <td><span class="badge">{{ product.source }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+
+        <div class="actions">
+            <a href="{{ url_for('index') }}" class="button">Explore More Items</a>
+        </div>
+    </main>
+</body>
+</html>
