@@ -1,29 +1,4 @@
-# Datasets and large media/data files
-datasets/
-*.csv
-*.png
-*.jpg
-*.jpeg
-*.zip
-*.gz
-
-# Python bytecode and build artifacts
+﻿.venv/
 __pycache__/
-*.py[cod]
-*$py.class
-dist/
-build/
-*.egg-info/
-
-# Virtual environments and secrets
-venv/
-env/
+*.pyc
 .env
-.env/
-
-# IDE and editor metadata
-.vscode/
-.idea/
-
-# Application logs
-*.log
